@@ -16,10 +16,19 @@
 
 package com.google.maps.android.utils.demo;
 
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.drawable.Icon;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
 
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -32,42 +41,56 @@ import static android.text.Spannable.SPAN_EXCLUSIVE_EXCLUSIVE;
 
 public class IconGeneratorDemoActivity extends BaseDemoActivity {
 
+    private ViewGroup mContainer;
+    private TextView mTextView;
+
     @Override
     protected void startDemo() {
         getMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(-33.8696, 151.2094), 10));
 
-        IconGenerator iconFactory = new IconGenerator(this);
-        addIcon(iconFactory, "Default", new LatLng(-33.8696, 151.2094));
+        mContainer = (ViewGroup) LayoutInflater.from(this).inflate(R.layout.amu_text_bubble, null);
+        mTextView = (TextView) mContainer.findViewById(com.google.maps.android.R.id.amu_text);
 
-        iconFactory.setColor(Color.CYAN);
-        addIcon(iconFactory, "Custom color", new LatLng(-33.9360, 151.2070));
-
-        iconFactory.setRotation(90);
-        iconFactory.setStyle(IconGenerator.STYLE_RED);
-        addIcon(iconFactory, "Rotated 90 degrees", new LatLng(-33.8858, 151.096));
-
-        iconFactory.setContentRotation(-90);
-        iconFactory.setStyle(IconGenerator.STYLE_PURPLE);
-        addIcon(iconFactory, "Rotate=90, ContentRotate=-90", new LatLng(-33.9992, 151.098));
-
-        iconFactory.setRotation(0);
-        iconFactory.setContentRotation(90);
-        iconFactory.setStyle(IconGenerator.STYLE_GREEN);
-        addIcon(iconFactory, "ContentRotate=90", new LatLng(-33.7677, 151.244));
-
-        iconFactory.setRotation(0);
-        iconFactory.setContentRotation(0);
-        iconFactory.setStyle(IconGenerator.STYLE_ORANGE);
-        addIcon(iconFactory, makeCharSequence(), new LatLng(-33.77720, 151.12412));
-    }
-
-    private void addIcon(IconGenerator iconFactory, CharSequence text, LatLng position) {
-        MarkerOptions markerOptions = new MarkerOptions().
-                icon(BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon(text))).
-                position(position).
-                anchor(iconFactory.getAnchorU(), iconFactory.getAnchorV());
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(new LatLng(-33.8696, 151.2094));
+        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(makeIcon("test")));
 
         getMap().addMarker(markerOptions);
+
+    }
+
+
+
+    public Bitmap makeIcon(CharSequence text) {
+        if (mTextView != null) {
+            mTextView.setText(text);
+        }
+
+        return makeIcon();
+    }
+
+    public Bitmap makeIcon() {
+
+        int measureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        mContainer.measure(30, 39);
+
+        int measuredWidth = mContainer.getMeasuredWidth();
+        int measuredHeight = mContainer.getMeasuredHeight();
+
+        mContainer.layout(0, 0, measuredWidth, measuredHeight);
+
+
+        measuredHeight = mContainer.getMeasuredWidth();
+        measuredWidth = mContainer.getMeasuredHeight();
+
+
+        Bitmap r = Bitmap.createBitmap(measuredWidth, measuredHeight, Bitmap.Config.ARGB_8888);
+        r.eraseColor(Color.TRANSPARENT);
+
+        Canvas canvas = new Canvas(r);
+
+        mContainer.draw(canvas);
+        return r;
     }
 
     private CharSequence makeCharSequence() {

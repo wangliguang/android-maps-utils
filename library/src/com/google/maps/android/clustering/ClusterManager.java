@@ -20,6 +20,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 
+import android.util.Log;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.Marker;
@@ -68,6 +69,7 @@ public class ClusterManager<T extends ClusterItem> implements
         this(context, map, new MarkerManager(map));
     }
 
+
     public ClusterManager(Context context, GoogleMap map, MarkerManager markerManager) {
         mMap = map;
         mMarkerManager = markerManager;
@@ -105,6 +107,7 @@ public class ClusterManager<T extends ClusterItem> implements
         mRenderer.setOnClusterItemInfoWindowClickListener(mOnClusterItemInfoWindowClickListener);
         cluster();
     }
+
 
     public void setAlgorithm(Algorithm<T> algorithm) {
         mAlgorithmLock.writeLock().lock();

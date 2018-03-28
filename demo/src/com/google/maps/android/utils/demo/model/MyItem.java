@@ -17,6 +17,7 @@
 package com.google.maps.android.utils.demo.model;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterItem;
 
 public class MyItem implements ClusterItem {
@@ -46,6 +47,7 @@ public class MyItem implements ClusterItem {
 
     @Override
     public String getSnippet() { return mSnippet; }
+
 
     /**
      * Set the title of the marker

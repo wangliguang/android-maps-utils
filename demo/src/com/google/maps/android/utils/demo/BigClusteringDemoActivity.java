@@ -16,7 +16,20 @@
 
 package com.google.maps.android.utils.demo;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.clustering.Cluster;
+import com.google.maps.android.clustering.view.DefaultClusterRenderer;
+import com.google.maps.android.ui.IconGenerator;
+import com.google.maps.android.utils.demo.model.Person;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONException;
@@ -44,6 +57,7 @@ public class BigClusteringDemoActivity extends BaseDemoActivity {
             Toast.makeText(this, "Problem reading list of markers.", Toast.LENGTH_LONG).show();
         }
     }
+
 
     private void readItems() throws JSONException {
         InputStream inputStream = getResources().openRawResource(R.raw.radar_search);

@@ -42,7 +42,6 @@ public class IconGenerator {
     private final Context mContext;
 
     private ViewGroup mContainer;
-    private RotationLayout mRotationLayout;
     private TextView mTextView;
     private View mContentView;
 
@@ -50,17 +49,14 @@ public class IconGenerator {
 
     private float mAnchorU = 0.5f;
     private float mAnchorV = 1f;
-    private BubbleDrawable mBackground;
 
     /**
      * Creates a new IconGenerator with the default style.
      */
     public IconGenerator(Context context) {
         mContext = context;
-        mBackground = new BubbleDrawable(mContext.getResources());
         mContainer = (ViewGroup) LayoutInflater.from(mContext).inflate(R.layout.amu_text_bubble, null);
-        mRotationLayout = (RotationLayout) mContainer.getChildAt(0);
-        mContentView = mTextView = (TextView) mRotationLayout.findViewById(R.id.amu_text);
+        mContentView = mTextView = (TextView) mContainer.findViewById(R.id.amu_text);
         setStyle(STYLE_DEFAULT);
     }
 
@@ -129,11 +125,10 @@ public class IconGenerator {
      * #setTextAppearance} and {@link #makeIcon(CharSequence)} will operate upon that {@link TextView}.
      */
     public void setContentView(View contentView) {
-        mRotationLayout.removeAllViews();
-        mRotationLayout.addView(contentView);
-        mContentView = contentView;
-        final View view = mRotationLayout.findViewById(R.id.amu_text);
-        mTextView = view instanceof TextView ? (TextView) view : null;
+        //mRotationLayout.addView(contentView);
+        //mContentView = contentView;
+        //final View view = mRotationLayout.findViewById(R.id.amu_text);
+        //mTextView = view instanceof TextView ? (TextView) view : null;
     }
 
     /**
@@ -142,7 +137,7 @@ public class IconGenerator {
      * @param degrees the amount the contents should be rotated, as a multiple of 90 degrees.
      */
     public void setContentRotation(int degrees) {
-        mRotationLayout.setViewRotation(degrees);
+        //mRotationLayout.setViewRotation(degrees);
     }
 
     /**
@@ -222,8 +217,7 @@ public class IconGenerator {
      * @param color the color for the background tint.
      */
     public void setColor(int color) {
-        mBackground.setColor(color);
-        setBackground(mBackground);
+
     }
 
     /**
